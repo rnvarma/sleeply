@@ -43,6 +43,15 @@ http = credentials.authorize(http)
 service = build(serviceName='calendar', version='v3', http=http,
        developerKey='AIzaSyDRD1yDR9Cxp0uyknrmPTW_arcSp3lUl_g')
 
-calendar = service.calendars().get(calendarId='ya29.EwGBHjZhptDxXWfTphAy9aYwrZF4hCUH_OB1kZBxRrWTQmwlJFrFMaoiIty4MA4N_n2qjeKWbDhUIg').execute()
 
-print calendar['summary']
+calendar = service.calendars().get(calendarId='primary').execute()
+
+page_token = None
+
+while True:
+    events = service.events().list(calendarId='primary',pageToken=page_token).execute()
+    for event in events['items']:
+        print event['summary']
+    page_token = events.get('nextPageToken')
+    if not page_token:
+        break
