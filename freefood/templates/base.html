@@ -1,14 +1,18 @@
 <html>
     <head>
+      {% load staticfiles %}
         <title>{% block title %}{% endblock %}</title>
         
-        {% block scripts %}{% endblock %}
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
         {% block styles %}{% endblock %}
         
     </head>
     <body>
-        <h1>This is a Heading</h1>
         {% block body %}{% endblock %}
+
+        <script src="{% static 'js/jquery.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        {% block scripts %}{% endblock %}
     </body>
 </html>
 

@@ -98,10 +98,15 @@ WSGI_APPLICATION = 'freefood.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(ROOT_DIR, '..', 'database.db'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd3trbsgu9kcb6n',
+        'USER': 'hsvdhxieomuhsw',
+        'PASSWORD': 'ljnVtuCQBmI8XI1gvVnkG3eBqj',
+        'HOST': 'ec2-54-225-156-230.compute-1.amazonaws.com',
+        'PORT': '5432'
     }
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
