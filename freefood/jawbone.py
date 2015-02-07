@@ -42,6 +42,30 @@ def conflicts(calendar, (start, end)):
 		if end >= event_start and start <= event_end:
 			return (event_start, event_end)
 
+def simpleMapWrapped(api_key):
+	def simpleMap(shit):
+		details = shit['details']
+		if int(shit['sub_type']) == 0:
+			timeStart = time.gmtime(int(details['asleep_time']))
+			timeEnd = time.gmtime(int(details['awake_time']))
+			start = timeStart.tm_hour*60 + timeStart.tm_min
+			end = timeEnd.tm_hour*60 + timeEnd.tm_min
+			return (start, end, 1)
+		return (0,0,0)
+	return simpleMap
+
+def simpleReduce((a,b,c),(d,e,f)):
+	return (a+d,b+e,c+f)
+
+def avgsleepwake(api_key):
+	request = urllib2.Request("https://jawbone.com/nudge/api/v.1.1/users/@me/sleeps?limit=100")
+	request.add_header("Authorization", "Bearer %s" % api_key)
+	result = urllib2.urlopen(request)
+	dataShits =  json.loads(result.read())['data']['items']
+	(avgStart, avgEnd, sleeps) = reduce (simpleReduce, map (simpleMapWrapped(api_key),dataShits), (0,0,0))
+	startTime = datetime.time((avgStart/sleeps)/60, (avgStart/sleeps)%60)
+	endTime = datetime.time((avgEnd/sleeps)/60, (avgEnd/sleeps)%60)
+	return (startTime, endTime)
 
 def main(api_key, calendar):
 	#REMOVE THIS DUMMY VALUE BEFORE USING!!!!!!
@@ -133,7 +157,8 @@ def main(api_key, calendar):
 	return dictArray
 
 	
-print main("", [(datetime.datetime.now(), datetime.datetime.now() + datetime.timedelta(hours=5))])
+# print main("", [(datetime.datetime.now(), datetime.datetime.now() + datetime.timedelta(hours=5))])
+print avgsleepwake('r5ZHAAV8pCX7UpqLgRy-i3Dzzi0ExmCCjrn_ztxZsWgYKibrZhpX6cYD-LXDCyL0_7thzXV5WO7OrZkZcuARr1ECdgRlo_GULMgGZS0EumxrKbZFiOmnmAPChBPDZ5JP')
 
 
 
