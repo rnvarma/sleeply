@@ -78,34 +78,36 @@ def main(api_key):
 		elif end < scaled :
 			longNap = int(cluster[0])
 
-	date = datetime.datetime.now()
-	shortnapdate = date;
-	coffeedate = date;
-	if shortNap > 240:
+	date = datetime.date.today()
+	shortnapdate = date
+	coffeedate = date
+	if shortNap < 1260:
 		shortnapdate += datetime.timedelta(days=1)
-	if coffee > 240:
-		shortnapdate += datetime.timedelta(days=1)
+		shortnapdate = datetime.datetime.combine(shortnapdate, datetime.time(shortNap/60, shortNap%60))
+	if coffee < 1260:
+		coffeedate += datetime.timedelta(days=1)
+		coffeenapdate = datetime.datetime.combine(coffeedate, datetime.time(coffeeNap/60, coffeeNap%60))
+		coffeedate = datetime.datetime.combine(coffeedate, datetime.time(coffee/60, coffee%60))
 	increment = date + datetime.timedelta(days=1)
-	return [{'title':'Short Nap', 
-				'startTime' : (shortNap/60, shortNap%60),
-				'endTime' : ((shortNap+20)/60,(shortNap+20)%60),
-				'date' : shortnapdate},
+	if sleep < 960:
+		increment = increment + datetime.timedelta(days=1)
+	longnapdate = datetime.datetime.combine(increment, datetime.time(longNap/60, longNap%60))
+	sleepdate = datetime.datetime.combine(increment, datetime.time(sleep/60, sleep%60))
+	return [{'title':'Excercise', 
+				'startTime' : shortnapdate,
+				'endTime' : shortnapdate + datetime.timedelta(minutes=20)},
 			{'title':'Caffeine',
-				'startTime' : (coffee/60, coffee%60),
-				'endTime' : ((coffee+15)/60,(coffee+15)%60),
-				'date' : coffeedate},
+				'startTime' : coffeedate,
+				'endTime' : coffeedate + datetime.timedelta(minutes=15)},
 			{'title':'PowerNap',
-				'startTime' : (coffeeNap/60, coffeeNap%60),
-				'endTime' : ((coffeeNap+20)/60,(coffeeNap+20)%60),
-				'date' : coffeedate},
+				'startTime' : coffeenapdate,
+				'endTime' : coffeenapdate + datetime.timedelta(minutes=20)},
 			{'title':'Long Nap',
-				'startTime' : (longNap/60, longNap%60),
-				'endTime' : ((longNap+90)/60,(longNap+90)%60),
-				'date' : increment},
+				'startTime' : longnapdate,
+				'endTime' : longnapdate + datetime.timedelta(minutes=90)},
 			{'title':'ZzZzZzZz',
-				'startTime' : (sleep/60, sleep%60),
-				'endTime' : ((avgEnd)/60,(avgEnd)%60),
-				'date' : increment}]
+				'startTime' : sleepdate,
+				'endTime' : sleepdate + datetime.timedelta(hours=10)}]
 
 	
 print main("")
