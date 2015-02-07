@@ -90,6 +90,8 @@ def allnighter(api_key, calendar, date):
 	api_key = 'r5ZHAAV8pCX7UpqLgRy-i3Dzzi0ExmCCjrn_ztxZsWgYKibrZhpX6cYD-LXDCyL0_7thzXV5WO7OrZkZcuARr1ECdgRlo_GULMgGZS0EumxrKbZFiOmnmAPChBPDZ5JP'
 
 	(avgStart, avgEnd, sleeps, clusters) = calculate(api_key)
+	avgStart = avgStart - 500
+	avgEnd = avgEnd - 500
 	coffee = avgEnd-45
 	coffeeNap = avgEnd-30
 	sleep = avgStart-120
