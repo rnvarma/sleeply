@@ -37,7 +37,7 @@ def mapWrapped(api_key):
 def reduceShit((a,b,c,g), (d,e,f,h)):
 	return (a+d,b+e,c+f,[])
 
-def main(api_key):
+def main(api_key, calendar):
 	api_key = 'r5ZHAAV8pCX7UpqLgRy-i3Dzzi0ExmCCjrn_ztxZsWgYKibrZhpX6cYD-LXDCyL0_7thzXV5WO7OrZkZcuARr1ECdgRlo_GULMgGZS0EumxrKbZFiOmnmAPChBPDZ5JP'
 
 	request = urllib2.Request("https://jawbone.com/nudge/api/v.1.1/users/@me/sleeps?limit=100")
