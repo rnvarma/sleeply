@@ -1,4 +1,8 @@
 Django==1.7
+djangorestframework
+django-cors-headers
+django-sslserver
+South
 distribute==0.6.34
 dj-database-url==0.2.1
 dj-static==0.0.6

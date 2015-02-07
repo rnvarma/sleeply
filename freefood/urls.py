@@ -12,6 +12,8 @@ handler404 = views.NotFoundView.as_view()
 handler500 = views.ErrorView.as_view()
 
 urlpatterns = patterns('',
-    url(r'^$', views.IndexPage.as_view(), name='index'),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', views.IndexPage.as_view(), name='home'),
+    url(r'^executelogin', views.login_user),
+    url(r'^login', views.LoginPage.as_view()),
+    url(r'^1/create_user', views.UserView.as_view())
 )

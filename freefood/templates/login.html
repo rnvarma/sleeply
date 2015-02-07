@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<form class="form-signin" action="/executelogin" method="post">
+  {% csrf_token %}
+  <h2 class="form-signin-heading">Admin – sign in</h2>
+  <div class="login-wrap">
+      <div class="user-login-info">
+          <input type="text" class="form-control" placeholder="User ID" autofocus name="username">
+          <input type="password" class="form-control" placeholder="Password" name = "password">
+      </div>
+      <input class = "next-redirect" type="hidden" name="next" value="">
+      <script>
+        var url = document.URL;
+        var arg = "next=";
+        i = 0;
+        while (url.slice(i, i + arg.length) != arg) {
+          i ++;
+        }
+        var start = i + arg.length;
+        var end = url.length;
+        var next = url.slice(start, end);
+        var elem = document.getElementsByClassName("next-redirect")[0];
+        console.log(next);
+        elem.setAttribute("value", next);
+
+      </script>
+      <button class="btn btn-lg btn-login btn-block" type="submit">Sign in</button>
+
+      <div class="registration" style="text-align:center;">
+          Need an admin account?
+          <a class="" href="http://www.kritikalstats.com/about">
+              Contact us.
+          </a>
+      </div>
+
+  </div>
+</form>
+
+{% endblock %}

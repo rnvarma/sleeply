@@ -3,13 +3,48 @@ import sys
 from django.core.exceptions import PermissionDenied
 from django.http import (HttpResponse, HttpResponseNotFound,
     HttpResponseBadRequest, HttpResponseServerError)
+from django.http import HttpResponseRedirect
 from django.views.generic.base import View
 from django.views.generic import TemplateView
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 from django.shortcuts import render
+from django.utils.decorators import method_decorator
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import redirect_to_login
+from django.contrib.auth.models import User
+from backend.models import *
 
+def login_user(request):
+    username = password = ''
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect('/')
+    return HttpResponseRedirect("/login")
+
+class UserView(APIView):
+    def post(self, request):
+        data = (requst.POST)
+        # create user object
+        user = User.objects.create_user(data.first_name, data.email, data.password)
+        user.last_name = data.last_name
+        user.save()
+        # create userdata and link to user
+        user_data = UserData(user=user, google_key=data.g_key, up_key=data.u_key)
+        user_data.save()
+        # login and redirect to homepage
+        user_login = authenticate(username=data.first_name, password=data.password)
+        login(request, user_login)
+        return HttpResponseRedirect("/")
 
 class ErrorView(View):
     """ HTTP 500: Internal Server Error """
@@ -18,7 +53,6 @@ class ErrorView(View):
     
     def get(self, request):
         return render(request, self.template_name, status=self.status)
-    
     
 class PermissionDeniedView(ErrorView):
     """ HTTP 403: Forbidden """
@@ -30,25 +64,20 @@ class NotFoundView(ErrorView):
     """ HTTP 404: Not Found """
     template_name = '404.html'
     status = 404
-    
+
+class LoginPage(TemplateView):
+    """ The Login Page. """
+    template_name = 'login.html'
     
 class IndexPage(TemplateView):
     """ The Index Page. """
     template_name = 'index.html'
-    
-    
-def staff_only(view):
-    """ Staff-only View decorator. """
-    
-    def decorated_view(request, *args, **kwargs):
-        if not request.user.is_authenticated():
-            return redirect_to_login(request.get_full_path())
-            
-        if not request.user.is_staff:
-            raise PermissionDenied
-            
-        return view(request, *args, **kwargs)
-        
-    return decorated_view
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(IndexPage, self).dispatch(*args, **kwargs)
+
+    def get(self, request):
+        return render(request, self.template_name)
     
     
