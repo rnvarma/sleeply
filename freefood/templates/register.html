@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Index Page{% endblock %}
+
+{% block styles %}
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/register.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+<div class="hidden up_code" data-code = "{{upcode}}"></div>
+
+<!-- In the callback, you would hide the gSignInWrapper element on a
+successful sign in -->
+<div class="row">
+  <div col="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-12">
+    <div id="gSignInWrapper">
+      <div class="signin-step-text">
+          Step 2: Sign in with Google Calenders
+        </div>
+      <div id="customBtn" class="customGPlusSignIn">
+          <span class="icon"></span>
+          <span class="buttonText">Sign in with Google</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6 col-xs-12">
+    <div id="signup-wrapper">
+      <div class="signin-step-text">
+          Step 3: Register with Sleeply!
+        </div>
+      <form class="form-register" action="/1/create_user" method="post">
+        {% csrf_token %}
+        <input type="text" class="form-control" placeholder="First Name" autofocus name="first_name">
+        <input type="text" class="form-control" placeholder="Last Name" autofocus name="last_name">
+        <input type="text" class="form-control" placeholder="Email" autofocus name="email">
+        <input type="password" class="form-control" placeholder="Password" autofocus name="password">
+        <input class = "u-key-hidden" type="hidden" name="u_key" value="">
+        <input class = "g-key-hidden" type="hidden" name="g_key" value="">
+        <button class="btn btn-lg btn-login btn-block btn-success" type="submit">Sign in</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="https://apis.google.com/js/client:platform.js?onload=render" async defer></script>
+  <script src="{% static 'js/register.js' %}"></script>
+{% endblock %}
