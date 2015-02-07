@@ -1,5 +1,5 @@
 import sys
-import urllib, json
+import urllib, json, datetime
 
 from django.core.exceptions import PermissionDenied
 from django.http import (HttpResponse, HttpResponseNotFound,
@@ -20,6 +20,7 @@ from django.contrib.auth.models import User
 from backend.models import *
 from backend.serializers import *
 # from freefood.testCalendar import getEvents
+from freefood.getSuggestions import *
 
 def login_user(request):
     username = password = ''
@@ -38,11 +39,20 @@ def logout_user(request):
     logout(request)
     return HttpResponseRedirect("/login")
 
+class GetHackathonHelp(APIView):
+    def post(self, request):
+        data = dict(request.POST)
+        username = data["username"][0]
+        y, m , d = data["year"][0], data["month"][0], data["day"][0]
+        date = datetime.datetime(y, m, d)
+        events = getHackathonSuggestions(username, date)
+        enterEvents(events, username)
+        return HttpResponseRedirect("/")
+
 class UserEventsFetch(APIView):
 
     @staticmethod
     def getStats(dt):
-        print dt
         date, time = dt.split(" ")
         time = time.split("+")[0]
         yr, m, d = map(int, date.split("-"))
@@ -92,9 +102,7 @@ class UserEventsFetch(APIView):
 
 class UserView(APIView):
     def post(self, request):
-        print "got into user view post request"
         data = dict(request.POST)
-        print data
         # create user object
         user = User.objects.create_user(data['first_name'][0], data['email'][0], data['password'][0])
         user.last_name = data['last_name'][0]

@@ -85,7 +85,7 @@ def calculate(api_key):
 	avgEnd = avgEnd/sleeps
 	return (avgStart, avgEnd, sleeps, clusters)
 
-def allnighter(api_key, calendar):
+def allnighter(api_key, calendar, date):
 	#REMOVE THIS DUMMY VALUE BEFORE USING!!!!!!
 	api_key = 'r5ZHAAV8pCX7UpqLgRy-i3Dzzi0ExmCCjrn_ztxZsWgYKibrZhpX6cYD-LXDCyL0_7thzXV5WO7OrZkZcuARr1ECdgRlo_GULMgGZS0EumxrKbZFiOmnmAPChBPDZ5JP'
 
@@ -113,7 +113,6 @@ def allnighter(api_key, calendar):
 		elif end < scaled :
 			longNap = int(cluster[0])
 
-	date = datetime.date.today()
 	shortnapdate = date
 	coffeedate = date
 	coffeenapdate = date
@@ -126,7 +125,7 @@ def allnighter(api_key, calendar):
 		coffeedate = datetime.datetime.combine(coffeedate, datetime.time(coffee/60, coffee%60))
 	increment = date + datetime.timedelta(days=1)
 	if sleep < 960:
-		increment = increment + datetime.timedelta(days=1)
+		increment = increment + datetime.timedelta(days=2)
 	longnapdate = datetime.datetime.combine(increment, datetime.time(longNap/60, longNap%60))
 	sleepdate = datetime.datetime.combine(increment, datetime.time(sleep/60, sleep%60))
 	dictArray = []
@@ -275,7 +274,7 @@ def regular(api_key, calendar):
 
 
 
-print regular("",[[],[(datetime.datetime.now()+datetime.timedelta(days=2), datetime.datetime.now() + datetime.timedelta(minutes=53) + datetime.timedelta(days=2))],[],[],[],[],[]])
+# print regular("",[[],[(datetime.datetime.now()+datetime.timedelta(days=2), datetime.datetime.now() + datetime.timedelta(minutes=53) + datetime.timedelta(days=2))],[],[],[],[],[]])
 # print allnighter("", [(datetime.datetime.now(), datetime.datetime.now() + datetime.timedelta(hours=5))])
 # print avgsleepwake('r5ZHAAV8pCX7UpqLgRy-i3Dzzi0ExmCCjrn_ztxZsWgYKibrZhpX6cYD-LXDCyL0_7thzXV5WO7OrZkZcuARr1ECdgRlo_GULMgGZS0EumxrKbZFiOmnmAPChBPDZ5JP')
 

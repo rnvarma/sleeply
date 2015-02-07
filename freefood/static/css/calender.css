@@ -204,4 +204,55 @@ html, body {
   background-color: red;
 }
 
+.suggestion-icon {
+  font-size: 300%;
+  margin-left: 29%;
+  color: white;
+  border-style: solid;
+  padding: 11px;
+  border-radius: 56px;
+  padding-left: 17px;
+}
+
+.NapThing {
+  background-color: #245084;
+  border: none !important;
+}
+.Excercise{
+  color: #991e1f;
+  border: none !important;
+  margin-top: -30px;
+}
+.Excercise-background {
+  border: none;
+  background-color: #f9627f;
+}
+
+.Caffeine{
+  margin-left: 0;
+  border: none !important;
+  color: #aa8651;
+  margin-top: -32px;
+}
+.Caffeine-background{
+  border: none !important;
+  background-color: #eab773;
+}
+.PowerNap{
+  margin-left: 50%;
+  border: none !important;
+  margin-top: -32px;
+  color: #2080ce;
+}
+.PowerNap-background{
+  border: none !important;
+  background-color: #92b2cc;
+}
+.Productivity{
+
+}
+.Relaxation{
+
+}
+
 

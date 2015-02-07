@@ -5,14 +5,34 @@ CAL_SIZE = 24 * HOURSIZE;
 
 EVENTDICT = {};
 
+IMG_DICT = {
+  "Excercise": "fa fa-heartbeat",
+  "Caffeine": "fa fa-coffee",
+  "PowerNap": "fa fa-power-off",
+  "Productivity": "fa fa-bolt",
+  "Relaxation": "fa fa-thumbs-up"
+}
+
 function formatted_time(mil_num) {
   if (mil_num < 12) return mil_num.toString() + " AM";
   else if (mil_num == 12) return mil_num.toString() + " PM";
   else return (mil_num % 12).toString() + " PM";
 }
 
+function get_icon_div(name) {
+  var classname = "fa fa-moon-o";
+  if(IMG_DICT.hasOwnProperty(name)) {
+    classname = IMG_DICT[name]
+  }
+  var icon = $(document.createElement("i"))
+  icon.addClass(classname + " suggestion-icon");
+  return icon;
+}
+
 function place_event(event) {
-  var day = moment(event.start_date.full).day();
+  console.log(event);
+  var day = moment(event.start_date.month + "/" + event.start_date.date + "/" + event.start_date.year).day();
+  console.log(day);
   var eventdiv = $(document.createElement("div"));
   var top = -(CAL_SIZE - event.start_date.scaledT * HOURSIZE) + 2;
   var left = day * $(".caltop-date").width();
@@ -23,12 +43,23 @@ function place_event(event) {
   eventdiv.css("height", height);
   eventdiv.css("margin-top", top);
   eventdiv.css("margin-left", left);
-  eventdiv.text(event.name);
-  var time = event.start_date.time;
-  var timeDiv = $(document.createElement("div"));
-  timeDiv.addClass("eventTimeText");
-  timeDiv.text(time);
-  eventdiv.append(timeDiv);
+  if (event.is_suggestion) {
+    icon_div = get_icon_div(event.name);
+    eventdiv.append(icon_div);
+    if (icon_div.hasClass("fa-moon-o")) {
+      eventdiv.addClass("NapThing");
+    } else {
+      icon_div.addClass(event.name);
+      eventdiv.addClass(event.name + "-background");
+    }
+  } else {
+    eventdiv.text(event.name);
+    var time = event.start_date.time;
+    var timeDiv = $(document.createElement("div"));
+    timeDiv.addClass("eventTimeText");
+    timeDiv.text(time);
+    eventdiv.append(timeDiv);
+  }
   $(".body-stuff").append(eventdiv);
 }
 
@@ -84,7 +115,10 @@ function click_handlers() {
   });
 
   $(".today-button-div").click(function() {
+    WEEKDIFF = 0;
+    $(".calender-event").remove();
     populate_top_dates(get_nearest_prev_sunday());
+    place_event_list(EVENTDICT[get_short_date(get_nearest_prev_sunday())]);
   });
 
   $(".calender-event").click(function() {
