@@ -89,3 +89,36 @@
 .main-calender {
   
 }
+
+.topcorner {
+  width: 70px;
+  height: 50px;
+  float: left;
+}
+
+.topdates {
+  height: 50px;
+  float: left;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  border-bottom-color: #b0b0b0;
+}
+
+.caltop-date {
+  width: 14.28%;
+  float: left;
+  height: 50px;
+  text-align: center;
+  padding-top: 10px;
+  font-size: 110%;
+}
+
+.body-times {
+  float: left;
+  width: 70px;
+}
+
+.body-stuff {
+  float: left;
+}
+
