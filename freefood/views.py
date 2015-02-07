@@ -1,4 +1,5 @@
 import sys
+import httplib, urllib
 
 from django.core.exceptions import PermissionDenied
 from django.http import (HttpResponse, HttpResponseNotFound,
@@ -79,5 +80,15 @@ class IndexPage(TemplateView):
 
     def get(self, request):
         return render(request, self.template_name)
-    
+
+class JawboneLogin(TemplateView):
+    """ The Jawbone Login Page. """
+    template_name = 'jawboneLogin.html'
+
+def jawbone1(request):
+    code = request.GET.__getitem__('code')
+    request = 'https://jawbone.com/auth/oauth2/token?grant_type=authorization_code&client_id=mAl_RHjkugQ&client_secret=a026698826232e451bb06f270023bdd2167a1ed8&code='
+    request += code
+    f = urllib.urlopen(request,{})
+    f.read()
     
