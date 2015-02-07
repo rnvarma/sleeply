@@ -2,12 +2,13 @@ function render() {
     gapi.signin.render('customBtn', {
     'callback': function(authResult) {
         var g_token = authResult.access_token;
-        var u_token = $("up_code").attr("data-code");
+        var u_token = $(".up_code").attr("data-code");
+        console.log(g_token);
         if (g_token) {
             $("#gSignInWrapper").hide();
             $("#signup-wrapper").show();
-            $("g-key-hidden").attr("value", g_token)
-            $("u-key-hidden").attr("value", u_token);
+            $(".g-key-hidden").attr("value", g_token)
+            $(".u-key-hidden").attr("value", u_token);
         }
     },
     'clientid': '196405873859-d2tuulj4imr0r5olf32mbdlcjat4hihm.apps.googleusercontent.com',

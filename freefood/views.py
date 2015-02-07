@@ -76,15 +76,16 @@ class IndexPage(TemplateView):
     """ The Index Page. """
     template_name = 'index.html'
 
-    # @method_decorator(login_required)
-    # def dispatch(self, *args, **kwargs):
-    #     return super(IndexPage, self).dispatch(*args, **kwargs)
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(IndexPage, self).dispatch(*args, **kwargs)
 
     def get(self, request):
+        print "got into here"
         return render(request, self.template_name)
 
 class Register(TemplateView):
-    """ The Index Page. """
+    """ The Index Page."""
     template_name = 'register.html'
 
     # @method_decorator(login_required)
