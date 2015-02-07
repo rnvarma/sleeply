@@ -173,7 +173,7 @@ def regular(api_key, calendar):
 	request.add_header("start_time", str(time.time() - 604800))
 	request.add_header("end_time", str(time.time()))
 	result = urllib2.urlopen(request)
-	dataShits =  json.loads(result.read())['data']['items']
+	dataShits = json.loads(result.read())['data']['items']
 	duration = 0
 	for shit in dataShits:
 		duration += (shit['details']['duration'])
@@ -202,7 +202,7 @@ def regular(api_key, calendar):
 	times = [20,30,40,50]
 	date = datetime.date.today()
 	date = datetime.datetime.combine(date, datetime.time(longNap/60, longNap%60))
-	for i in range (0,7):
+	for i in xrange(0,7):
 		coin = random.randint(0,4)
 		if coin < 2:
 			current = date + datetime.timedelta(days=i)
@@ -214,7 +214,7 @@ def regular(api_key, calendar):
 								'endTime' : endtime})
 			else:
 				endtime = c[0]
-				starttime = endtime - datetime.timededlta(minutes=makeup)
+				starttime = endtime - datetime.timedelta(minutes=makeup)
 				d = conflicts(calendar, (starttime, endtime))
 				if d == None:
 					dictArray.append({'title':napNames[random.randint(0,4)],
@@ -222,7 +222,7 @@ def regular(api_key, calendar):
 									'endTime': endtime})
 				else:
 					starttime=c[1]
-					endtime = starttime + datetime.timededlta(minutes=makeup)
+					endtime = starttime + datetime.timedelta(minutes=makeup)
 					d = conflicts(calendar, (starttime, endtime))
 					if d == None:
 						dictArray.append({'title':napNames[random.randint(0,4)],
@@ -268,17 +268,49 @@ def regular(api_key, calendar):
 	return dictArray
 
 
+def moods(api_key, calendar):
+	api_key = 'b6_3pfGGwEiqiz1PxM-xpPFK59dIENPZeRjoevRumblww7ZiMdMGvd_O7PAoOqLl8EvaJSumcI0GoYT-V9UbpVECdgRlo_GULMgGZS0EumxrKbZFiOmnmAPChBPDZ5JP'
+	request = urllib2.Request("https://jawbone.com/nudge/api/v.1.1/users/@me/mood")
+	request.add_header("Authorization", "Bearer %s" % api_key)
+	request.add_header("date", "20140305")
+	result = urllib2.urlopen(request)
+	dataShits = json.loads(result.read())
+	dataDict = dataShits['data']
+	moodList = ['amazing', 'pumped up', 'energized', 'meh', 'dragging', 'exhausted', 'totally done', 'good']
+	mostRecentMood = moodList[dataDict['sub_type']-1]
+	dictList = [] 
+	date = datetime.date.today() 
+	if (mostRecentMood == "amazing" or mostRecentMood == "pumped up"):
+		#schedule productivity here
+		dictList.append({'title':'productivity time!',
+								'startTime' : date,
+								'endTime' : date + datetime.timedelta(minutes=120)})
+	elif (mostRecentMood == "energized" or mostRecentMood == "good"):
+		#also schedule productivity here? 
+		dictList.append({'title':'productivity time!',
+								'startTime' : date,
+								'endTime' : date + datetime.timedelta(minutes=60)})
+		dictList.append({'title':'sleep time!',
+								'startTime' : date + datetime.timedelta(minutes=60),
+								'endTime' : date + datetime.timedelta(minutes=90)})
+	elif (mostRecentMood == "meh" or mostRecentMood == "dragging"): 
+		#schedule rest here
+		dictList.append({'title':'zzzzz', 
+								'startTime' : date,
+								'endTime' : date + datetime.timedelta(minutes=60)}) 
+	elif (mostRecentMood == "exhausted" or mostRecentMood == "totally done"):
+		#schedule nap here
+		dictList.append({'title':'go sleep for a day', 
+								'startTime' : date,
+								'endTime' : date + datetime.timedelta(days=1)})
+	return dictList  
 
 
-
-
-
-
-# print regular("",[[],[(datetime.datetime.now()+datetime.timedelta(days=2), datetime.datetime.now() + datetime.timedelta(minutes=53) + datetime.timedelta(days=2))],[],[],[],[],[]])
+#print regular("",[[],[(datetime.datetime.now()+datetime.timedelta(days=2), datetime.datetime.now() + datetime.timedelta(minutes=53) + datetime.timedelta(days=2))],[],[],[],[],[]])
 # print allnighter("", [(datetime.datetime.now(), datetime.datetime.now() + datetime.timedelta(hours=5))])
 # print avgsleepwake('r5ZHAAV8pCX7UpqLgRy-i3Dzzi0ExmCCjrn_ztxZsWgYKibrZhpX6cYD-LXDCyL0_7thzXV5WO7OrZkZcuARr1ECdgRlo_GULMgGZS0EumxrKbZFiOmnmAPChBPDZ5JP')
 
-
+#print moods(1, 1) 
 
 
 
