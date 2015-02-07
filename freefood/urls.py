@@ -14,5 +14,6 @@ handler500 = views.ErrorView.as_view()
 urlpatterns = patterns('',
     url(r'^$', views.IndexPage.as_view(), name='index'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^jawboneLogin/', views.JawboneLogin.as_view(), name='jawboneLogin').
+    url(r'^jawboneLogin/', views.JawboneLogin.as_view(), name='jawboneLogin'),
+    url(r'^jawbone1',views.jawbone1),
 )
