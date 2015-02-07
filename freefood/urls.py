@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     url(r'^$', views.IndexPage.as_view(), name='home'),
     url(r'^executelogin', views.login_user),
     url(r'^login', views.LoginPage.as_view()),
-    url(r'^1/create_user', views.UserView.as_view())
+    url(r'^1/create_user', views.UserView.as_view()),
     url(r'^jawboneLogin/', views.JawboneLogin.as_view(), name='jawboneLogin'),
     url(r'^jawbone1',views.jawbone1),
 )
