@@ -55,3 +55,43 @@ span.buttonText {
   font-size: 200%;
   margin-bottom: 20px;
 }
+
+.fullscreen-blur-pic {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-filter: blur(8px);
+  -moz-filter: blur(8px);
+  -o-filter: blur(8px);
+  -ms-filter: blur(8px);
+  filter: blur(8px);
+  z-index: -2;
+}
+
+.splash-stuff-panel {
+  padding: 20px;
+  background: black;
+}
+
+.sign-up-option {
+  margin-bottom: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.login-option {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.splash-stuff {
+  z-index: 5;
+}
+
+.splash-title {
+  text-align: center;
+  font-size: 1006%;
+  color: white;
+  margin-top: 100px;
+}

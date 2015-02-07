@@ -1,0 +1,91 @@
+
+.no-border {
+  border: none !important;
+}
+
+.top-header {
+  height: 50px;
+  background-color: #F5F5F5;
+  border: 1px black;
+  border-style: solid;
+  border-color: #b0b0b0;
+  border-width: thin;
+}
+
+.calender-header {
+  height: 51px;
+}
+
+.main-col.collapsed {
+  width: 99%;
+  margin-left: 15px;
+}
+
+.sidebar {
+  background-color: #F5F5F5;
+  border: 1px black;
+  border-style: solid;
+  border-color: #b0b0b0;
+  border-width: thin;
+}
+
+.search-input {
+  margin: 10px;
+  width: 62%;
+  margin-left: 32px;
+  border-radius: 27px;
+  height: 60%;
+  position: relative;
+  padding-left: 30px;
+}
+
+.search-icon {
+  font-size: 117%;
+  position: absolute;
+  top: 17px;
+  left: 42px;
+  color: #8E8E93;
+}
+
+.search-gear {
+  font-size: 196%;
+  position: absolute;
+  top: 13px;
+  color: #8E8E93;
+  right: 12px;
+}
+
+.search-gear:hover {
+  color: #2789E4;
+  cursor: pointer;
+}
+
+.left-header {
+  float: left;
+  height: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 18px;
+  border-right-style: solid;
+  border-right-width: thin;
+  border-right-color: #b0b0b0;
+}
+
+.left-header:hover {
+  color: #2789E4;
+  cursor: pointer;
+}
+
+.today-button-div {
+  padding-top: 14px;
+}
+
+.sidebar-toggler.clicked {
+  moz-box-shadow: inset -1px -1px 9px 2px #888;
+  -webkit-box-shadow: inset -1px -1px 9px 2px #888;
+  box-shadow: inset -1px -1px 9px 2px #888;
+}
+
+.main-calender {
+  
+}

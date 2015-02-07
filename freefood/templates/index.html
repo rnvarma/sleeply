@@ -1,6 +1,66 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
-{% block title %}Index Page{% endblock %}
+{% block title %}Home Page{% endblock %}
+
+{% block styles %}
+  <link href="{% static 'css/calender.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block body %}
+
+<div class="row">
+  <!-- Sidebar Col -->
+  <div class="col-md-2 col-sm-3 sidebar-col">
+    <!-- Sidebar header search-->
+    <div class="row top-header no-border">
+      <span class="input">
+        <input placeholder="search" class="form-control search-input">
+          <i class="fa fa-search search-icon"></i>
+        </input>
+      </span>
+      <i class="fa fa-gears search-gear"></i>
+    </div>
+
+    <!-- Sidebar main -->
+    <div class="row sidebar">
+
+    </div>
+  </div>
+
+  <!-- Main Calender Column-->
+  <div class="col-md-10 col-sm-9 main-col">
+    <!-- Main Calendar header-->
+    <div class="row top-header calender-header">
+      <!-- Sidebar toggle button -->
+      <div class="sidebar-toggler left-header clicked">
+        <i class="fa fa-list-ul fa-lg"></i>
+      </div>
+
+      <!-- Today button -->
+      <div class="today-button-div left-header">
+        Today
+      </div>
+
+      <!-- Move Prev Week Button -->
+      <div class="prev-week-button left-header">
+        <i class="fa fa-chevron-left fa-lg"></i>
+      </div>
+
+      <!-- Move Next Week Button -->
+      <div class="next-week-button left-header">
+        <i class="fa fa-chevron-right fa-lg"></i>
+      </div>
+    </div>
+
+    <!-- Main Calendar main -->
+    <div class="row main-calender">
+
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'js/calender.js' %}"></script>
 {% endblock %}

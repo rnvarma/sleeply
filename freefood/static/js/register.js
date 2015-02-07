@@ -3,7 +3,8 @@ function render() {
     'callback': function(authResult) {
         console.log(authResult);
         var g_token = authResult.access_token;
-        var u_token = $("up_code").attr("data-code");
+        var u_token = $(".up_code").attr("data-code");
+        console.log(g_token);
         if (g_token) {
             $("#gSignInWrapper").hide();
             $("#signup-wrapper").show();
