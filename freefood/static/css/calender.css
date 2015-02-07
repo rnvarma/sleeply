@@ -115,6 +115,7 @@ html, body {
   text-align: center;
   padding-top: 10px;
   font-size: 110%;
+  color: #8E8E93;
 }
 
 .body-times {
@@ -134,6 +135,7 @@ html, body {
 .hourtime {
   text-align: end;
   padding-right: 6px;
+  color: #8E8E93;
 }
 
 .hourbox {

@@ -35,18 +35,18 @@ function place_event(event) {
 
 function resize_heights() {
   var w_size = $(window).height();
-  console.log(w_size);
   $(".sidebar").css("height", w_size - 50);
   $(".main-calender").css("height", w_size - 51);
 
   var cal_w = $(".main-calender").width();
-  $(".topdates").css("width", cal_w - 70);
+  console.log(cal_w);
+  $(".topdates").css("width", cal_w - 75);
   $(".body-times").css("height", CAL_SIZE);
   $(".body-stuff").css("height", CAL_SIZE);
   $(".hourtime").css("height", HOURSIZE);
   $(".hourtime").css("padding-top", 59);
   $(".hourbox").css("height", HOURSIZE);
-  $(".body-stuff").css("width", cal_w - 70);
+  $(".body-stuff").css("width", cal_w - 75);
   $(".body-calender").css("height", w_size - 100)
 }
 
@@ -144,6 +144,10 @@ $(document).ready(function() {
   load_days();
   place_event(events[0]);
   place_event(events[1]);
+
+  $( window ).resize(function() {
+    resize_heights();
+  });
 })
 
 
