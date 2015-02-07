@@ -9,7 +9,8 @@
 
 {% block body %}
 
-<div class="row">
+<div class="row higher-level-div">
+  <div class="shaded-region-loading" style="display:none;"></div>
   <!-- Sidebar Col -->
   <div class="col-md-2 col-sm-3 sidebar-col">
     <!-- Sidebar header search-->
@@ -30,6 +31,33 @@
       <button class="btn btn-lg btn-default btn-block btn-primary sidebar-button weekplan-button">
         Plan your Week
       </button>
+      <button class="btn btn-lg btn-default btn-block btn-success sidebar-button mood-button">
+        Lift your Mood
+      </button>
+      <div class = "sidebar-marker">
+        <i class = "fa fa-moon-o sidebar-icon"></i>
+        <span class="sidebar-text">Sleep</span>
+      </div>
+      <div class = "sidebar-marker">
+        <i class = "fa fa-heartbeat Excercise sidebar-icon"></i>
+        <span class="sidebar-text">Excercise</span>
+      </div>
+      <div class = "sidebar-marker">
+        <i class = "fa fa-coffee Caffeine sidebar-icon"></i>
+        <span class="sidebar-text">Get Caffeine</span>
+      </div>
+      <div class = "sidebar-marker">
+        <i class = "fa fa-power-off sidebar-icon" style="color: #2080ce;"></i>
+        <span class="sidebar-text">Power Nap</span>
+      </div>
+      <div class = "sidebar-marker">
+        <i class = "fa fa-bolt Productivity sidebar-icon" style="color:#FFCC00"></i>
+        <span class="sidebar-text">Be Productive</span>
+      </div>
+      <div class = "sidebar-marker">
+        <i class = "fa fa-thumbs-up Relaxation sidebar-icon" style="color:green"></i>
+        <span class="sidebar-text">Take a Break</span>
+      </div>
     </div>
   </div>
 
@@ -189,6 +217,14 @@
           <div class="hourbox"></div>
           <div class="hourbox"></div>
           <div class="hourbox"></div>
+
+          <div class="verticalcol"></div>
+          <div class="verticalcol"></div>
+          <div class="verticalcol"></div>
+          <div class="verticalcol"></div>
+          <div class="verticalcol"></div>
+          <div class="verticalcol"></div>
+          <div class="verticalcol"></div>
         </div>
       </div>
     </div>

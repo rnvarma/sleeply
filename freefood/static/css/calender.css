@@ -272,5 +272,36 @@ html, body {
   color: white;
 }
 
+.sidebar-marker {
+  margin-left: 60px;
+  margin-top: 30px;
+}
 
+.sidebar-icon {
+  font-size: 200%;
+  margin-right: 45px;
+}
+
+.sidebar-text {
+  font-size: 124%;
+  font-weight: 800;
+}
+
+.shaded-region-loading {
+  position: absolute;
+  top: 0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  background-color: #575757;
+  opacity: 0.4;
+  z-index: 2000;
+}
+
+.verticalcol {
+  float: left;
+  border-left-style: solid;
+  border-left-width: thin;
+  border-left-color: #e0e0e0;
+}
 

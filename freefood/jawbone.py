@@ -57,7 +57,7 @@ def simpleMapWrapped(api_key):
 def simpleReduce((a,b,c),(d,e,f)):
 	return (a+d,b+e,c+f)
 
-def avgsleepwake(api_key):
+def rohan(api_key):
 	request = urllib2.Request("https://jawbone.com/nudge/api/v.1.1/users/@me/sleeps?limit=1000")
 	request.add_header("Authorization", "Bearer %s" % api_key)
 	result = urllib2.urlopen(request)
@@ -161,7 +161,7 @@ def allnighter(api_key, calendar, date):
 								'endTime': endtime})
 	return dictArray
 
-def regular(api_key, calendar):
+def regular(api_key, calendar, date):
 	#calendar is a 2d array of the form [[Monday],[Tuesday],[Wednesday]...]
 	# this is because that makes things easier for me. thanks. 
 	api_key = 'r5ZHAAV8pCX7UpqLgRy-i3Dzzi0ExmCCjrn_ztxZsWgYKibrZhpX6cYD-LXDCyL0_7thzXV5WO7OrZkZcuARr1ECdgRlo_GULMgGZS0EumxrKbZFiOmnmAPChBPDZ5JP'
@@ -199,19 +199,19 @@ def regular(api_key, calendar):
 			shortNap = int(cluster[0])
 		elif end < scaled :
 			longNap = int(cluster[0])
-	napNames = ['nap','snooze','doze','shut-eye','sshhhhhh']
+	napNames = 'Long Nap'
 	dictArray = []
 	times = [20,30,40,50]
-	date = datetime.date.today()
 	date = datetime.datetime.combine(date, datetime.time(longNap/60, longNap%60))
 	for i in xrange(0,7):
 		coin = random.randint(0,4)
+		offset = random.randint(-1,1)
 		if coin < 2:
-			current = date + datetime.timedelta(days=i)
-			endtime = date + datetime.timedelta(minutes=makeup)
+			current = date + datetime.timedelta(days=i) + datetime.timedelta(minutes=20*offset)
+			endtime = date + datetime.timedelta(minutes=times[random.randint(0,3)])
 			c = conflicts(calendar[i], (current, endtime))
 			if c == None:
-				dictArray.append({'title':napNames[random.randint(0,4)], 
+				dictArray.append({'title':napNames, 
 								'startTime' : current,
 								'endTime' : endtime})
 			else:
@@ -219,7 +219,7 @@ def regular(api_key, calendar):
 				starttime = endtime - datetime.timedelta(minutes=makeup)
 				d = conflicts(calendar, (starttime, endtime))
 				if d == None:
-					dictArray.append({'title':napNames[random.randint(0,4)],
+					dictArray.append({'title':napNames,
 									'startTime':starttime,
 									'endTime': endtime})
 				else:
@@ -227,7 +227,7 @@ def regular(api_key, calendar):
 					endtime = starttime + datetime.timedelta(minutes=makeup)
 					d = conflicts(calendar, (starttime, endtime))
 					if d == None:
-						dictArray.append({'title':napNames[random.randint(0,4)],
+						dictArray.append({'title':napNames,
 									'startTime':starttime,
 									'endTime': endtime})
 		# coin = random.randint(0,2)
@@ -270,7 +270,7 @@ def regular(api_key, calendar):
 	return dictArray
 
 
-def moods(api_key, calendar):
+def moods():
 	api_key = 'b6_3pfGGwEiqiz1PxM-xpPFK59dIENPZeRjoevRumblww7ZiMdMGvd_O7PAoOqLl8EvaJSumcI0GoYT-V9UbpVECdgRlo_GULMgGZS0EumxrKbZFiOmnmAPChBPDZ5JP'
 	request = urllib2.Request("https://jawbone.com/nudge/api/v.1.1/users/@me/mood")
 	request.add_header("Authorization", "Bearer %s" % api_key)
@@ -281,15 +281,15 @@ def moods(api_key, calendar):
 	moodList = ['amazing', 'pumped up', 'energized', 'meh', 'dragging', 'exhausted', 'totally done', 'good']
 	mostRecentMood = moodList[dataDict['sub_type']-1]
 	dictList = [] 
-	date = datetime.date.today() 
+	date = datetime.datetime.now() 
 	if (mostRecentMood == "amazing" or mostRecentMood == "pumped up"):
 		#schedule productivity here
-		dictList.append({'title':'productivity time!',
+		dictList.append({'title':'Productivity',
 								'startTime' : date,
 								'endTime' : date + datetime.timedelta(minutes=120)})
 	elif (mostRecentMood == "energized" or mostRecentMood == "good"):
 		#also schedule productivity here? 
-		dictList.append({'title':'productivity time!',
+		dictList.append({'title':'Productivity',
 								'startTime' : date,
 								'endTime' : date + datetime.timedelta(minutes=60)})
 		dictList.append({'title':'sleep time!',
@@ -303,8 +303,9 @@ def moods(api_key, calendar):
 	elif (mostRecentMood == "exhausted" or mostRecentMood == "totally done"):
 		#schedule nap here
 		dictList.append({'title':'go sleep for a day', 
-								'startTime' : date,
-								'endTime' : date + datetime.timedelta(days=1)})
+								'startTime' : datetime.date.today(),
+								'endTime' : datetime.datetime.combine(datetime.date.today(),datetime.time(0,0))
+														 + datetime.timedelta(days=1) - datetime.timedelta(minutes=1)})
 	return dictList  
 
 

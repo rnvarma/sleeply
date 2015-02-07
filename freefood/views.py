@@ -21,6 +21,7 @@ from backend.models import *
 from backend.serializers import *
 # from freefood.testCalendar import getEvents
 from freefood.getSuggestions import *
+from freefood.jawbone import *
 
 def login_user(request):
     username = password = ''
@@ -50,6 +51,24 @@ class GetHackathonHelp(APIView):
         enterEvents(username, events)
         return HttpResponseRedirect("/")
 
+class GetMoodCalculation(APIView):
+    def get(self, request):
+        usern = request.GET.__getitem__('username')
+        events = moods()
+        enterEvents(usern, events)
+        return HttpResponseRedirect("/")
+
+class PlanYourWeek(APIView):
+    def post(self, request):
+        data = dict(request.DATA)
+        username = data["username"]
+        y, m , d = data["year"], data["month"], data["day"]
+        date = datetime.datetime(y, m, d)
+        events = getRegularSuggestions(username, date)
+        enterEvents(username, events)
+        return HttpResponseRedirect("/")
+
+
 class UserEventsFetch(APIView):
 
     @staticmethod
@@ -57,7 +76,7 @@ class UserEventsFetch(APIView):
         date, time = dt.split(" ")
         time = time.split("+")[0]
         yr, m, d = map(int, date.split("-"))
-        h, minute, s = map(int, time.split(":"))
+        h, minute, s = map(int, map(float, time.split(":")))
         return (yr, m , d, h, minute)
 
     @staticmethod

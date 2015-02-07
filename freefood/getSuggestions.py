@@ -35,7 +35,7 @@ def getRegularSuggestions(username, start_sunday):
     i = delta.days
     if i <= 6:
       result[i].append((start,end))
-  return regular("", result)
+  return regular("", result, start_sunday)
 
 def getHackathonSuggestions(username, date):
   lower = datetime.datetime.today()
