@@ -1,5 +1,4 @@
-import gflags
-import httplib2
+import gflags, httplib2, datetime
 
 from googleapiclient.discovery import build
 from oauth2client.file import Storage
@@ -46,12 +45,23 @@ service = build(serviceName='calendar', version='v3', http=http,
 
 calendar = service.calendars().get(calendarId='primary').execute()
 
-page_token = None
 
-while True:
-    events = service.events().list(calendarId='primary',pageToken=page_token).execute()
-    for event in events['items']:
-        print event['summary']
-    page_token = events.get('nextPageToken')
-    if not page_token:
-        break
+def getEvents(startRange,endRange):
+  events = service.events().list(calendarId='primary').execute()
+  currentEvents = []
+  dateFormat = "%Y-%m-%dT%H:%M:%S"
+  for event in events['items']:
+    eventTitle = event['summary']
+    startField = event['start']
+    endField = event['end']
+    if ('dateTime' in startField and 'dateTime' in endField):
+      startIdx = startField['dateTime'].rfind('-')
+      endIdx = endField['dateTime'].rfind('-')
+      start = startField['dateTime'][:startIdx]
+      end = endField['dateTime'][:endIdx]
+      startTime = datetime.datetime.strptime(start,dateFormat)
+      endTime = datetime.datetime.strptime(end,dateFormat)
+      if (startRange <= startTime):
+        currentEvents.append((eventTitle,startTime,endTime))
+  return currentEvents
+
