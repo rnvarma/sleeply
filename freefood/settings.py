@@ -77,7 +77,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'backend',
     'south',
-    'sslserver'
+    'sslserver',
+    'rest_framework'
 )
 
 MIDDLEWARE_CLASSES = (

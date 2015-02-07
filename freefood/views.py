@@ -1,5 +1,5 @@
 import sys
-import httplib, urllib
+import urllib, json
 
 from django.core.exceptions import PermissionDenied
 from django.http import (HttpResponse, HttpResponseNotFound,
@@ -34,16 +34,18 @@ def login_user(request):
 
 class UserView(APIView):
     def post(self, request):
-        data = (requst.POST)
+        print "got into user view post request"
+        data = dict(request.POST)
+        print data
         # create user object
-        user = User.objects.create_user(data.first_name, data.email, data.password)
-        user.last_name = data.last_name
+        user = User.objects.create_user(data['first_name'][0], data['email'][0], data['password'][0])
+        user.last_name = data['last_name'][0]
         user.save()
         # create userdata and link to user
-        user_data = UserData(user=user, google_key=data.g_key, up_key=data.u_key)
+        user_data = UserData(user=user, google_key=data['g_key'][0], up_key=data['u_key'][0])
         user_data.save()
         # login and redirect to homepage
-        user_login = authenticate(username=data.first_name, password=data.password)
+        user_login = authenticate(username=data['first_name'][0], password=data['password'][0])
         login(request, user_login)
         return HttpResponseRedirect("/")
 
@@ -74,12 +76,24 @@ class IndexPage(TemplateView):
     """ The Index Page. """
     template_name = 'index.html'
 
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(IndexPage, self).dispatch(*args, **kwargs)
+    # @method_decorator(login_required)
+    # def dispatch(self, *args, **kwargs):
+    #     return super(IndexPage, self).dispatch(*args, **kwargs)
 
     def get(self, request):
         return render(request, self.template_name)
+
+class Register(TemplateView):
+    """ The Index Page. """
+    template_name = 'register.html'
+
+    # @method_decorator(login_required)
+    # def dispatch(self, *args, **kwargs):
+    #     return super(IndexPage, self).dispatch(*args, **kwargs)
+
+    def get(self, request):
+        up_code = request.GET.__getitem__('up_code')
+        return render(request, self.template_name, {'upcode': up_code})
 
 class JawboneLogin(TemplateView):
     """ The Jawbone Login Page. """
@@ -90,5 +104,8 @@ def jawbone1(request):
     request = 'https://jawbone.com/auth/oauth2/token?grant_type=authorization_code&client_id=mAl_RHjkugQ&client_secret=a026698826232e451bb06f270023bdd2167a1ed8&code='
     request += code
     f = urllib.urlopen(request,{})
-    f.read()
+    data = json.loads(f.read())
+    token = data["access_token"]
+    return HttpResponseRedirect("/register?up_code=%s" % token)
+    
     
