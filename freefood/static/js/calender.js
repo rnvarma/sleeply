@@ -7,17 +7,26 @@ events = [
 {
   start_time: 15,
   end_time: 17,
-  day: 2
+  day: 2,
+  name: "go shopping!"
 }, {
   start_time: 8,
   end_time: 13,
-  day: 4
+  day: 4,
+  name: "recover from tartan hacks"
 }, {
   start_time: 12,
   end_time: 17,
-  day: 5
+  day: 5,
+  name: "grading"
 }
 ]
+
+function formatted_time(mil_num) {
+  if (mil_num < 12) return mil_num.toString() + " AM";
+  else if (mil_num == 12) return mil_num.toString() + " PM";
+  else return (mil_num % 12).toString() + " PM";
+}
 
 function place_event(event) {
   var eventdiv = $(document.createElement("div"));
@@ -30,6 +39,12 @@ function place_event(event) {
   eventdiv.css("height", height);
   eventdiv.css("margin-top", top);
   eventdiv.css("margin-left", left);
+  eventdiv.text(event.name);
+  var time = formatted_time(event.start_time);
+  var timeDiv = $(document.createElement("div"));
+  timeDiv.addClass("eventTimeText");
+  timeDiv.text(time);
+  eventdiv.append(timeDiv);
   $(".body-stuff").append(eventdiv);
 }
 
@@ -78,6 +93,16 @@ function click_handlers() {
 
   $(".today-button-div").click(function() {
     populate_top_dates(get_nearest_prev_sunday());
+  });
+
+  // $(".body-stuff").click(function() {
+  //   $(".clickedEvent").removeClass("clickedEvent");
+  // })
+
+  $(".calender-event").click(function() {
+    console.log("got into here");
+    $(".clickedEvent").removeClass("clickedEvent");
+    $(this).addClass("clickedEvent");
   })
 }
 
@@ -125,11 +150,16 @@ function get_days_of_week(sunday) {
 }
 
 function populate_top_dates(sunday) {
+  var today = moment().format("dddd").slice(0,3) + " " + moment().format("MM/DD");
   var days = get_days_of_week(sunday);
+  $(".isToday").removeClass("isToday")
   for (var i = 0; i < days.length; i++) {
     var date = days[i];
     var finaldate = date.format("dddd").slice(0,3) + " " + date.format("MM/DD");
     $("#topdate" + i.toString()).text(finaldate);
+    if (today == finaldate) {
+      $("#topdate" + i.toString()).addClass("isToday");
+    }
   }
 }
 
@@ -144,6 +174,7 @@ $(document).ready(function() {
   load_days();
   place_event(events[0]);
   place_event(events[1]);
+  place_event(events[2]);
 
   $( window ).resize(function() {
     resize_heights();

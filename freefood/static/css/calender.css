@@ -60,7 +60,7 @@ html, body {
 }
 
 .search-gear:hover {
-  color: #2789E4;
+  color: red;
   cursor: pointer;
 }
 
@@ -76,8 +76,30 @@ html, body {
 }
 
 .left-header:hover {
-  color: #2789E4;
+  color: red;
   cursor: pointer;
+}
+
+.right-header {
+  float: right;
+  border-left-style: solid;
+  border-left-width: thin;
+  border-left-color: #b0b0b0;
+  height: 50px;
+  text-align: center;
+  margin-right: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 14px;
+}
+
+.right-header:hover {
+  color: red;
+  cursor: pointer;
+}
+
+.username-button {
+  margin-right: 0 !important;
 }
 
 .today-button-div {
@@ -146,7 +168,35 @@ html, body {
 
 .calender-event {
   /*position: fixed;*/
-  background-color: red;
+  background-color: #FE8484;
   float: left;
+  border-left-style: solid;
+  border-left-width: medium;
+  border-left-color: #BA0000;
+  color: #BA0000;
+  padding: 8px;
+  font-size: 120%;
 }
+
+.calender-event:hover {
+  cursor: pointer;
+}
+
+.isToday {
+  font-weight: 800;
+  color: red;
+}
+
+.eventTimeText {
+  color: white;
+  font-size: 85%;
+  margin-top: 7px;
+}
+
+.clickedEvent {
+  border: none;
+  color: white !important;
+  background-color: red;
+}
+
 

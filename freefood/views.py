@@ -18,6 +18,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import redirect_to_login
 from django.contrib.auth.models import User
 from backend.models import *
+# from freefood.testCalendar import getEvents
+
 
 def login_user(request):
     username = password = ''
@@ -81,8 +83,7 @@ class IndexPage(TemplateView):
         return super(IndexPage, self).dispatch(*args, **kwargs)
 
     def get(self, request):
-        print "got into here"
-        return render(request, self.template_name)
+        return render(request, self.template_name, {'user': request.user})
 
 class Register(TemplateView):
     """ The Index Page."""
