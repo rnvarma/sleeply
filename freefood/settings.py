@@ -78,7 +78,6 @@ INSTALLED_APPS = (
     'backend',
     'sslserver',
     'rest_framework',
-    'south'
 )
 
 MIDDLEWARE_CLASSES = (
