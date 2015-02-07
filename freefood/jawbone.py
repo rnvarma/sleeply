@@ -37,6 +37,12 @@ def mapWrapped(api_key):
 def reduceShit((a,b,c,g), (d,e,f,h)):
 	return (a+d,b+e,c+f,[])
 
+def conflicts(calendar, (start, end)):
+	for (event_start, event_end) in calendar:
+		if end >= event_start and start <= event_end:
+			return (event_start, event_end)
+
+
 def main(api_key, calendar):
 	api_key = 'r5ZHAAV8pCX7UpqLgRy-i3Dzzi0ExmCCjrn_ztxZsWgYKibrZhpX6cYD-LXDCyL0_7thzXV5WO7OrZkZcuARr1ECdgRlo_GULMgGZS0EumxrKbZFiOmnmAPChBPDZ5JP'
 
@@ -81,6 +87,7 @@ def main(api_key, calendar):
 	date = datetime.date.today()
 	shortnapdate = date
 	coffeedate = date
+	coffeenapdate = date
 	if shortNap < 1260:
 		shortnapdate += datetime.timedelta(days=1)
 		shortnapdate = datetime.datetime.combine(shortnapdate, datetime.time(shortNap/60, shortNap%60))
@@ -93,24 +100,39 @@ def main(api_key, calendar):
 		increment = increment + datetime.timedelta(days=1)
 	longnapdate = datetime.datetime.combine(increment, datetime.time(longNap/60, longNap%60))
 	sleepdate = datetime.datetime.combine(increment, datetime.time(sleep/60, sleep%60))
-	return [{'title':'Excercise', 
-				'startTime' : shortnapdate,
-				'endTime' : shortnapdate + datetime.timedelta(minutes=20)},
-			{'title':'Caffeine',
-				'startTime' : coffeedate,
-				'endTime' : coffeedate + datetime.timedelta(minutes=15)},
-			{'title':'PowerNap',
-				'startTime' : coffeenapdate,
-				'endTime' : coffeenapdate + datetime.timedelta(minutes=20)},
-			{'title':'Long Nap',
-				'startTime' : longnapdate,
-				'endTime' : longnapdate + datetime.timedelta(minutes=90)},
-			{'title':'ZzZzZzZz',
-				'startTime' : sleepdate,
-				'endTime' : sleepdate + datetime.timedelta(hours=10)}]
+	dictArray = []
+	events = [	("Excercise", shortnapdate, 20),
+				("Caffeine", coffeedate, 15),
+				("PowerNap", coffeenapdate, 20),
+				("Long Nap", longnapdate, 90),
+				("ZzZzZzZz", sleepdate, 600)]
+	for event in events:
+		endtime = event[1] + datetime.timedelta(minutes=event[2])
+		c = conflicts(calendar, (event[1], endtime))
+		if c == None:
+			dictArray.append({'title':event[0], 
+							'startTime' : event[1],
+							'endTime' : endtime})
+		else:
+			endtime = c[0]
+			starttime = endtime - datetime.timededlta(minutes=event[2])
+			d = conflicts(calendar, (starttime, endtime))
+			if d == None:
+				dictArray.append({'title':event[0],
+								'startTime':starttime,
+								'endTime': endtime})
+			else:
+				starttime=c[1]
+				endtime = starttime + datetime.timededlta(minutes=event[2])
+				d = conflicts(calendar, (starttime, endtime))
+				if d == None:
+					dictArray.append({'title':event[0],
+								'startTime':starttime,
+								'endTime': endtime})
+	return dictArray
 
 	
-print main("")
+print main("", [(datetime.datetime.now(), datetime.datetime.now() + datetime.timedelta(hours=5))])
 
 
 
