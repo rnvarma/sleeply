@@ -1,4 +1,8 @@
 
+html, body {
+  overflow: hidden;
+}
+
 .no-border {
   border: none !important;
 }
@@ -56,7 +60,7 @@
 }
 
 .search-gear:hover {
-  color: #2789E4;
+  color: red;
   cursor: pointer;
 }
 
@@ -72,8 +76,35 @@
 }
 
 .left-header:hover {
-  color: #2789E4;
+  color: red;
   cursor: pointer;
+}
+
+.right-header {
+  float: right;
+  border-left-style: solid;
+  border-left-width: thin;
+  border-left-color: #b0b0b0;
+  height: 50px;
+  text-align: center;
+  margin-right: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 14px;
+  border: none;
+  background-color: #F5F5F5;
+  padding-top: 0;
+  height: 49px;
+  outline: 0;
+}
+
+.right-header:hover {
+  color: red;
+  cursor: pointer;
+}
+
+.username-button {
+  margin-right: 0 !important;
 }
 
 .today-button-div {
@@ -89,3 +120,88 @@
 .main-calender {
   
 }
+
+.topcorner {
+  width: 70px;
+  height: 50px;
+  float: left;
+}
+
+.topdates {
+  height: 50px;
+  float: left;
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  border-bottom-color: #b0b0b0;
+}
+
+.caltop-date {
+  width: 14.28%;
+  float: left;
+  height: 50px;
+  text-align: center;
+  padding-top: 10px;
+  font-size: 110%;
+  color: #8E8E93;
+}
+
+.body-times {
+  float: left;
+  width: 70px;
+}
+
+.body-stuff {
+  float: left;
+}
+
+.body-calender {
+  overflow: auto;
+  width: 100%;
+}
+
+.hourtime {
+  text-align: end;
+  padding-right: 6px;
+  color: #8E8E93;
+}
+
+.hourbox {
+  border-bottom-style: solid;
+  border-bottom-width: thin;
+  border-bottom-color: #b0b0b0;
+}
+
+.calender-event {
+  /*position: fixed;*/
+  background-color: #FE8484;
+  float: left;
+  border-left-style: solid;
+  border-left-width: medium;
+  border-left-color: #BA0000;
+  color: #BA0000;
+  padding: 8px;
+  font-size: 120%;
+}
+
+.calender-event:hover {
+  cursor: pointer;
+}
+
+.isToday {
+  font-weight: 800;
+  color: red;
+}
+
+.eventTimeText {
+  color: white;
+  font-size: 85%;
+  margin-top: 7px;
+}
+
+.clickedEvent {
+  border: none;
+  color: white !important;
+  background-color: red;
+}
+
+

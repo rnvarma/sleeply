@@ -51,16 +51,166 @@
       <div class="next-week-button left-header">
         <i class="fa fa-chevron-right fa-lg"></i>
       </div>
+      <form action="/executelogout" method="post" style="margin: 0;">
+        {% csrf_token %}
+        <button type="submit" class="logout-button right-header">Logout</button>
+      </form>
+      <button class="username-button right-header" data-toggle="modal" data-target="#userDataModal">{{user}}</button>
     </div>
 
     <!-- Main Calendar main -->
     <div class="row main-calender">
+      <!-- top row of calendar -->
+      <div class="top-calender">
+        <!-- top corner -->
+        <div class="topcorner">
 
+        </div>
+        <!-- dates at top -->
+        <div class="topdates">
+          <div class="caltop-date" id="topdate0">
+          </div>
+          <div class="caltop-date" id="topdate1">
+          </div>
+          <div class="caltop-date" id="topdate2">
+          </div>
+          <div class="caltop-date" id="topdate3">
+          </div>
+          <div class="caltop-date" id="topdate4">
+          </div>
+          <div class="caltop-date" id="topdate5">
+          </div>
+          <div class="caltop-date" id="topdate6">
+          </div>
+        </div>
+      </div>
+      <!-- main meat of calendar -->
+      <div class="body-calender">
+        <!-- times on side -->
+        <div class="body-times">
+          <div class="hourtime">
+            1 AM
+          </div>
+          <div class="hourtime">
+            2 AM
+          </div>
+          <div class="hourtime">
+            3 AM
+          </div>
+          <div class="hourtime">
+            4 AM
+          </div>
+          <div class="hourtime">
+            5 AM
+          </div>
+          <div class="hourtime">
+            6 AM
+          </div>
+          <div class="hourtime">
+            7 AM
+          </div>
+          <div class="hourtime">
+            8 AM
+          </div>
+          <div class="hourtime">
+            9 AM
+          </div>
+          <div class="hourtime">
+            10 AM
+          </div>
+          <div class="hourtime">
+            11 AM
+          </div>
+          <div class="hourtime">
+            12 PM
+          </div>
+          <div class="hourtime">
+            1 PM
+          </div>
+          <div class="hourtime">
+            2 PM
+          </div>
+          <div class="hourtime">
+            3 PM
+          </div>
+          <div class="hourtime">
+            4 PM
+          </div>
+          <div class="hourtime">
+            5 PM
+          </div>
+          <div class="hourtime">
+            6 PM
+          </div>
+          <div class="hourtime">
+            7 PM
+          </div>
+          <div class="hourtime">
+            8 PM
+          </div>
+          <div class="hourtime">
+            9 PM
+          </div>
+          <div class="hourtime">
+            10 PM
+          </div>
+          <div class="hourtime">
+            11 PM
+          </div>
+        </div>
+        <!-- main calendar thing -->
+        <div class="body-stuff">
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+          <div class="hourbox"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="userDataModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Your Sleep Data</h4>
+      </div>
+      <div class="modal-body">
+        <p>Data 1</p>
+        <p>Data 2</p>
+        <p>Data 3</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 {% endblock %}
 
 {% block scripts %}
+  <script src="{% static 'js/moment.js' %}"></script>
   <script src="{% static 'js/calender.js' %}"></script>
 {% endblock %}
