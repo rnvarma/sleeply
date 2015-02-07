@@ -3,24 +3,7 @@ WEEKDIFF = 0;
 HOURSIZE = 70;
 CAL_SIZE = 24 * HOURSIZE;
 
-events = [
-{
-  start_time: 15,
-  end_time: 17,
-  day: 2,
-  name: "go shopping!"
-}, {
-  start_time: 8,
-  end_time: 13,
-  day: 4,
-  name: "recover from tartan hacks"
-}, {
-  start_time: 12,
-  end_time: 17,
-  day: 5,
-  name: "grading"
-}
-]
+EVENTDICT = {};
 
 function formatted_time(mil_num) {
   if (mil_num < 12) return mil_num.toString() + " AM";
@@ -29,18 +12,19 @@ function formatted_time(mil_num) {
 }
 
 function place_event(event) {
+  var day = moment(event.start_date.full).day();
   var eventdiv = $(document.createElement("div"));
-  var top = -(CAL_SIZE - event.start_time * HOURSIZE);
-  var left = event.day * $(".caltop-date").width();
+  var top = -(CAL_SIZE - event.start_date.scaledT * HOURSIZE) + 2;
+  var left = day * $(".caltop-date").width();
   var width = $(".caltop-date").width();
-  var height = (event.end_time - event.start_time) * HOURSIZE;
+  var height = (event.end_date.scaledT - event.start_date.scaledT) * HOURSIZE - 4;
   eventdiv.addClass("calender-event");
   eventdiv.css("width", width);
   eventdiv.css("height", height);
   eventdiv.css("margin-top", top);
   eventdiv.css("margin-left", left);
   eventdiv.text(event.name);
-  var time = formatted_time(event.start_time);
+  var time = event.start_date.time;
   var timeDiv = $(document.createElement("div"));
   timeDiv.addClass("eventTimeText");
   timeDiv.text(time);
@@ -82,32 +66,36 @@ function click_handlers() {
   $(".prev-week-button").click(function() {
     var sunday = new Date();
     WEEKDIFF -= 1
+    var date = get_short_date(get_x_days_away(WEEKDIFF * 7));
     populate_top_dates(get_x_days_away(WEEKDIFF * 7));
+    $(".calender-event").remove();
+    console.log(date, EVENTDICT[date])
+    place_event_list(EVENTDICT[date]);
   });
 
   $(".next-week-button").click(function() {
     var sunday = new Date();
     WEEKDIFF += 1
+    var date = get_short_date(get_x_days_away(WEEKDIFF * 7));
     populate_top_dates(get_x_days_away(WEEKDIFF * 7));
+    $(".calender-event").remove();
+    console.log(date, EVENTDICT[date])
+    place_event_list(EVENTDICT[date]);
   });
 
   $(".today-button-div").click(function() {
     populate_top_dates(get_nearest_prev_sunday());
   });
 
-  // $(".body-stuff").click(function() {
-  //   $(".clickedEvent").removeClass("clickedEvent");
-  // })
-
   $(".calender-event").click(function() {
     console.log("got into here");
     $(".clickedEvent").removeClass("clickedEvent");
     $(this).addClass("clickedEvent");
   });
+}
 
-  $(".logout-button").click(function() {
-    
-  })
+function get_short_date(sunday) {
+  return (sunday.month()+1).toString() + "/" + sunday.date().toString();
 }
 
 function get_prev_day(day) {
@@ -142,6 +130,14 @@ function get_nearest_prev_sunday() {
   return sunday
 }
 
+function get_nearest_sunday_to_date(date) {
+  var distance = date.day();
+  date.subtract(distance, "days");
+  var month = (date.month()+1).toString();
+  var day = date.date().toString();
+  return month + "/" + day
+}
+
 function get_days_of_week(sunday) {
   var nextday;
   nextday = moment(sunday);
@@ -172,13 +168,55 @@ function load_days() {
   populate_top_dates(sunday);
 }
 
+function process_events(raw_events) {
+  for (var i = 0; i < raw_events.length; i++) {
+    var eventData = raw_events[i]
+    var bin = get_nearest_sunday_to_date(moment(eventData.start_date.full))
+    if (EVENTDICT[bin]) {
+      EVENTDICT[bin].push(eventData)
+    } else {
+      EVENTDICT[bin] = [eventData]
+    }
+  }
+}
+
+function place_event_list(event_list) {
+  for (var i = 0; i < event_list.length; i++) {
+    place_event(event_list[i])
+  }
+}
+
+function get_backend_events() {
+  var username = $(".username-button").text();
+  var url = "/1/get_events?username=" + username;
+  $.ajax({
+    type: 'GET',
+    url: url,
+    contentType: 'application/json',
+    success: function (data) {
+      console.log(data);
+      process_events(data)
+      console.log(EVENTDICT);
+      var sunday = get_nearest_prev_sunday()
+      var stringsunday = (sunday.month()+1).toString() + "/" + sunday.date().toString();
+      console.log(stringsunday);
+      var currevents = EVENTDICT[stringsunday];
+      place_event_list(currevents);
+    },
+    error: function(a , b, c){
+    },
+    async: true
+  });
+}
+
 $(document).ready(function() {
+  get_backend_events()
   resize_heights();
   click_handlers();
   load_days();
-  place_event(events[0]);
-  place_event(events[1]);
-  place_event(events[2]);
+  // place_event(events[0]);
+  // place_event(events[1]);
+  // place_event(events[2]);
 
   $( window ).resize(function() {
     resize_heights();

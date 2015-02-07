@@ -18,6 +18,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import redirect_to_login
 from django.contrib.auth.models import User
 from backend.models import *
+from backend.serializers import *
 # from freefood.testCalendar import getEvents
 
 def login_user(request):
@@ -36,6 +37,58 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect("/login")
+
+class UserEventsFetch(APIView):
+
+    @staticmethod
+    def getStats(dt):
+        print dt
+        date, time = dt.split(" ")
+        time = time.split("+")[0]
+        yr, m, d = map(int, date.split("-"))
+        h, minute, s = map(int, time.split(":"))
+        return (yr, m , d, h, minute)
+
+    @staticmethod
+    def getTime(h, d):
+        ampm = "AM" if h < 12 else "PM"
+        h = h if h < 13 else h % 12
+        if d == 0:
+            return "%d %s" % (h, ampm)
+        else:
+            return "%d:%d %s" % (h, d, ampm)
+
+    def get(self, request):
+        usern = request.GET.__getitem__('username')
+        user = User.objects.get(username = usern)
+        events = user.userdata.events.all()
+        data = EventSerializer(events, many = True).data
+        for event in data:
+            start_time = event['start_date']
+            (yr, m , d, h, minute) = UserEventsFetch.getStats(str(start_time))
+            startT = h + float(minute)/60
+            start_data = {
+                "full": start_time,
+                "scaledT": startT,
+                "year": yr,
+                "month": m,
+                "date": d,
+                "time": UserEventsFetch.getTime(h, minute)
+            }
+            end_time = event['end_date']
+            (yr, m , d, h, minute) = UserEventsFetch.getStats(str(end_time))
+            endT = h + float(minute)/60
+            end_data = {
+                "full": end_time,
+                "scaledT": endT,
+                "year": yr,
+                "month": m,
+                "date": d,
+                "time": UserEventsFetch.getTime(h, minute)
+            }
+            event['start_date'] = start_data
+            event['end_date'] = end_data
+        return Response(data)
 
 class UserView(APIView):
     def post(self, request):

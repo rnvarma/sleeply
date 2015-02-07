@@ -23,5 +23,6 @@ urlpatterns = patterns('',
     url(r'^login', views.LoginPage.as_view()),
     url(r'^signup', views.JawboneLogin.as_view()),
     url(r'^register', views.Register.as_view()),
-    url(r'^1/create_user', views.UserView.as_view())
+    url(r'^1/create_user', views.UserView.as_view()),
+    url(r'^1/get_events', views.UserEventsFetch.as_view())
 )
