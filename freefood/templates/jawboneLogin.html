@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Connect with Jawbone{% endblock %}
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+{% block body %}
+    <p>Jawbone</p>
+    <button type="button" onclick="connect()">CONNECT</button>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/jawbone.js' %}"></script>
+{% endblock %}

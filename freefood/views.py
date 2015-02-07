@@ -35,6 +35,10 @@ class NotFoundView(ErrorView):
 class IndexPage(TemplateView):
     """ The Index Page. """
     template_name = 'index.html'
+
+class JawboneLogin(TemplateView):
+    """ The Jawbone Login Page. """
+    template_name = 'jawboneLogin.html'
     
     
 def staff_only(view):
