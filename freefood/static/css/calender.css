@@ -98,6 +98,13 @@ html, body {
   cursor: pointer;
 }
 
+.logout-button {
+  border: none;
+  background-color: #F5F5F5;
+  padding-top: 0;
+  height: 49px;
+}
+
 .username-button {
   margin-right: 0 !important;
 }

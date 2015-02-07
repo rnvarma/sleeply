@@ -103,6 +103,10 @@ function click_handlers() {
     console.log("got into here");
     $(".clickedEvent").removeClass("clickedEvent");
     $(this).addClass("clickedEvent");
+  });
+
+  $(".logout-button").click(function() {
+    
   })
 }
 

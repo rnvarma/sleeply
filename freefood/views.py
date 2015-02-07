@@ -34,6 +34,10 @@ def login_user(request):
                 return HttpResponseRedirect('/')
     return HttpResponseRedirect("/login")
 
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect("/login")
+
 class UserView(APIView):
     def post(self, request):
         print "got into user view post request"
