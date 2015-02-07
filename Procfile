@@ -1,1 +1,1 @@
-web: gunicorn djangotemplate.wsgi:application
+web: gunicorn freefood.wsgi:application

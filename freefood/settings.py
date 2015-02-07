@@ -1,5 +1,5 @@
 """
-Django settings for djangotemplate project.
+Django settings for freefood project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -28,7 +28,13 @@ mimetypes.add_type('image/png', '.png', True)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '[[ INSERT_SECRET_KEY_HERE ]]'
+SECRET_KEY = (
+    '\xa6\x49\x1a\x53\x1d\x0e\x07\x12\x1e\x30'
+    '\x06\x7b\x92\x57\xd5\x32\xef\x1a\xf7\x9e'
+    '\x76\xe4\x94\x27\xf6\x56\x07\x51\x3c\xe6'
+    '\xd3\x8c\x0a\x20\xdb\x27\xcc\x05\x32\x60'
+    '\x37\xd5\x84\xb6\x18\x86\x07\x7b\x49\xa0'
+)
 
 '''///////////////////////////////////////////////////////////////////
 ..// Obviously remember to change the SECRET_KEY for each new app! //
@@ -70,8 +76,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
-    'testapp',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -80,14 +84,13 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'djangotemplate.urls'
+ROOT_URLCONF = 'freefood.urls'
 
-WSGI_APPLICATION = 'djangotemplate.wsgi.application'
+WSGI_APPLICATION = 'freefood.wsgi.application'
 
 
 # Database
