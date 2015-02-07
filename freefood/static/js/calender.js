@@ -1,15 +1,53 @@
 WEEKDIFF = 0;
 
+HOURSIZE = 70;
+CAL_SIZE = 24 * HOURSIZE;
+
+events = [
+{
+  start_time: 15,
+  end_time: 17,
+  day: 2
+}, {
+  start_time: 8,
+  end_time: 13,
+  day: 4
+}, {
+  start_time: 12,
+  end_time: 17,
+  day: 5
+}
+]
+
+function place_event(event) {
+  var eventdiv = $(document.createElement("div"));
+  var top = -(CAL_SIZE - event.start_time * HOURSIZE);
+  var left = event.day * $(".caltop-date").width();
+  var width = $(".caltop-date").width();
+  var height = (event.end_time - event.start_time) * HOURSIZE;
+  eventdiv.addClass("calender-event");
+  eventdiv.css("width", width);
+  eventdiv.css("height", height);
+  eventdiv.css("margin-top", top);
+  eventdiv.css("margin-left", left);
+  $(".body-stuff").append(eventdiv);
+}
+
 function resize_heights() {
   var w_size = $(window).height();
+  console.log(w_size);
   $(".sidebar").css("height", w_size - 50);
   $(".main-calender").css("height", w_size - 51);
 
   var cal_w = $(".main-calender").width();
   $(".topdates").css("width", cal_w - 70);
-  $(".body-times").css("height", w_size - 100);
-  $(".body-stuff").css("height", w_size - 100);
+  $(".body-times").css("height", CAL_SIZE);
+  $(".body-stuff").css("height", CAL_SIZE);
+  $(".hourtime").css("height", HOURSIZE);
+  $(".hourtime").css("padding-top", 59);
+  $(".hourbox").css("height", HOURSIZE);
   $(".body-stuff").css("width", cal_w - 70);
+  $(".body-calender").css("height", w_size - 100)
 }
 
 function click_handlers() {
@@ -104,6 +142,8 @@ $(document).ready(function() {
   resize_heights();
   click_handlers();
   load_days();
+  place_event(events[0]);
+  place_event(events[1]);
 })
 
 
