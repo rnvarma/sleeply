@@ -91,18 +91,16 @@ html, body {
   padding-left: 15px;
   padding-right: 15px;
   padding-top: 14px;
+  border: none;
+  background-color: #F5F5F5;
+  padding-top: 0;
+  height: 49px;
+  outline: 0;
 }
 
 .right-header:hover {
   color: red;
   cursor: pointer;
-}
-
-.logout-button {
-  border: none;
-  background-color: #F5F5F5;
-  padding-top: 0;
-  height: 49px;
 }
 
 .username-button {

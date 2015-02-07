@@ -1,4 +1,5 @@
 *.pyc
+calendar.dat
 *.pyo
 *.py~
 *.py#

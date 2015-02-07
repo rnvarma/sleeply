@@ -20,7 +20,6 @@ from django.contrib.auth.models import User
 from backend.models import *
 # from freefood.testCalendar import getEvents
 
-
 def login_user(request):
     username = password = ''
     if request.POST:
