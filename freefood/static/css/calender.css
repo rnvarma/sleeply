@@ -255,4 +255,22 @@ html, body {
 
 }
 
+.sidebar-button {
+  width: 90%;
+  margin-left: 8%;
+  margin-top: 10px;
+  outline: 0;
+}
+
+.selectable {
+  border-style: solid;
+}
+
+.selectable:hover {
+  cursor: pointer;
+  background-color: black;
+  color: white;
+}
+
+
 

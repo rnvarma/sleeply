@@ -30,9 +30,7 @@ function get_icon_div(name) {
 }
 
 function place_event(event) {
-  console.log(event);
   var day = moment(event.start_date.month + "/" + event.start_date.date + "/" + event.start_date.year).day();
-  console.log(day);
   var eventdiv = $(document.createElement("div"));
   var top = -(CAL_SIZE - event.start_date.scaledT * HOURSIZE) + 2;
   var left = day * $(".caltop-date").width();
@@ -69,7 +67,6 @@ function resize_heights() {
   $(".main-calender").css("height", w_size - 51);
 
   var cal_w = $(".main-calender").width();
-  console.log(cal_w);
   $(".topdates").css("width", cal_w - 75);
   $(".body-times").css("height", CAL_SIZE);
   $(".body-stuff").css("height", CAL_SIZE);
@@ -78,6 +75,53 @@ function resize_heights() {
   $(".hourbox").css("height", HOURSIZE);
   $(".body-stuff").css("width", cal_w - 75);
   $(".body-calender").css("height", w_size - 100)
+}
+
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie != '') {
+      var cookies = document.cookie.split(';');
+      for (var i = 0; i < cookies.length; i++) {
+          var cookie = jQuery.trim(cookies[i]);
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) == (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+          }
+      }
+  }
+  return cookieValue;
+}
+
+function allNighterClickHandler($elem) {
+  var post_data = {}
+  var text = $elem.text().split(" ")[1];
+  var date = text.split("/");
+  post_data.month = parseInt(date[0])
+  post_data.day = parseInt(date[1])
+  post_data.year = parseInt($elem.attr("data-year"));
+  post_data.username = $(".username-button").text();
+  var csrftoken = getCookie('csrftoken');
+  $.ajax({
+    type: 'POST',
+    data: JSON.stringify(post_data),
+    url: "/1/setallnighter",
+    contentType: 'application/json',
+    beforeSend: function (xhr) {
+        xhr.withCredentials = true;
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    },
+    success: function (data) {
+      console.log(data);
+      window.location.href = "/"
+    },
+    error: function(a , b, c){
+      console.log("there was an error setting an all nighter");
+    },
+    async: true
+  });
+  $(".selectable").removeClass("selectable");
+  $(".allnighter-button").prop("disabled", true);
 }
 
 function click_handlers() {
@@ -100,7 +144,6 @@ function click_handlers() {
     var date = get_short_date(get_x_days_away(WEEKDIFF * 7));
     populate_top_dates(get_x_days_away(WEEKDIFF * 7));
     $(".calender-event").remove();
-    console.log(date, EVENTDICT[date])
     place_event_list(EVENTDICT[date]);
   });
 
@@ -110,7 +153,6 @@ function click_handlers() {
     var date = get_short_date(get_x_days_away(WEEKDIFF * 7));
     populate_top_dates(get_x_days_away(WEEKDIFF * 7));
     $(".calender-event").remove();
-    console.log(date, EVENTDICT[date])
     place_event_list(EVENTDICT[date]);
   });
 
@@ -122,10 +164,24 @@ function click_handlers() {
   });
 
   $(".calender-event").click(function() {
-    console.log("got into here");
     $(".clickedEvent").removeClass("clickedEvent");
     $(this).addClass("clickedEvent");
   });
+
+  $(".allnighter-button").click(function() {
+    $(".caltop-date").toggleClass("selectable");
+  });
+
+  $(".caltop-date.selectable").click();
+
+  $(window).click(function(e) {
+    if (e.target.id.slice(0,7) == "topdate") {
+      if (e.target.className == "caltop-date selectable") {
+        allNighterClickHandler($("#" + e.target.id))
+        console.log($("#" + e.target.id));
+      }
+    };
+  })
 }
 
 function get_short_date(sunday) {
@@ -191,6 +247,7 @@ function populate_top_dates(sunday) {
     var date = days[i];
     var finaldate = date.format("dddd").slice(0,3) + " " + date.format("MM/DD");
     $("#topdate" + i.toString()).text(finaldate);
+    $("#topdate" + i.toString()).attr("data-year", date.year());
     if (today == finaldate) {
       $("#topdate" + i.toString()).addClass("isToday");
     }
@@ -228,12 +285,9 @@ function get_backend_events() {
     url: url,
     contentType: 'application/json',
     success: function (data) {
-      console.log(data);
       process_events(data)
-      console.log(EVENTDICT);
       var sunday = get_nearest_prev_sunday()
       var stringsunday = (sunday.month()+1).toString() + "/" + sunday.date().toString();
-      console.log(stringsunday);
       var currevents = EVENTDICT[stringsunday];
       place_event_list(currevents);
     },

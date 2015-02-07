@@ -41,12 +41,13 @@ def logout_user(request):
 
 class GetHackathonHelp(APIView):
     def post(self, request):
-        data = dict(request.POST)
-        username = data["username"][0]
-        y, m , d = data["year"][0], data["month"][0], data["day"][0]
+        data = dict(request.DATA)
+        print data
+        username = data["username"]
+        y, m , d = data["year"], data["month"], data["day"]
         date = datetime.datetime(y, m, d)
         events = getHackathonSuggestions(username, date)
-        enterEvents(events, username)
+        enterEvents(username, events)
         return HttpResponseRedirect("/")
 
 class UserEventsFetch(APIView):
