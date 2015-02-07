@@ -44,6 +44,7 @@ def conflicts(calendar, (start, end)):
 
 
 def main(api_key, calendar):
+	#REMOVE THIS DUMMY VALUE BEFORE USING!!!!!!
 	api_key = 'r5ZHAAV8pCX7UpqLgRy-i3Dzzi0ExmCCjrn_ztxZsWgYKibrZhpX6cYD-LXDCyL0_7thzXV5WO7OrZkZcuARr1ECdgRlo_GULMgGZS0EumxrKbZFiOmnmAPChBPDZ5JP'
 
 	request = urllib2.Request("https://jawbone.com/nudge/api/v.1.1/users/@me/sleeps?limit=100")
